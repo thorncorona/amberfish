@@ -1,0 +1,84 @@
+header, main, footer {
+    padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+
+    nav div.container {
+        text-align:center;
+    }
+
+    .page-title {
+        font-size:36px !important;
+    }
+}
+
+@media only screen and (min-width : 993px) {
+
+}
+
+#front-page-logo {
+    height:300px;
+}
+
+.brand-logo {
+    height:300px !important;
+}
+
+.page-title {
+    font-size: 48px;
+    line-height: 122px;
+}
+
+nav.top-nav {
+    height: 122px;
+    box-shadow: none;
+}
+
+nav.top-nav i {
+    font-size:32px;
+    padding: 5%;
+}
+
+nav .button-collapse i {
+    line-height:122px !important;
+}
+
+.btn-large {
+    margin:5px !important;
+}
+
+h6 {
+    font-weight: 600;
+}
+
+.no-margins {
+    margin: 0 !important;
+}
+
+label {
+    width: 100%;
+}
+
+.input-field label {
+    font-size: 0.8rem;
+    -webkit-transform: translateY(-140%);
+    -moz-transform: translateY(-140%);
+    -ms-transform: translateY(-140%);
+    -o-transform: translateY(-140%);
+    transform: translateY(-140%);
+}
+
+.pushdown {
+    padding-top: 1em;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}

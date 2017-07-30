@@ -1,0 +1,25 @@
+<template name="manageclubs">
+  <main>
+    <div class="container">
+      <div class="card-container row">
+        {{#each clubs}}
+          {{> editclub}}
+        {{/each}}
+      </div>
+    </div>
+  </main>
+</template>
+
+<template name="editclub">
+  <div class="col s12 m12">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{name}}</span>
+        <p>{{desc}}</p>
+      </div>
+      <div class="card-action">
+        <a target="_blank" href="/manage/club/{{_id}}">Manage Club</a>
+      </div>
+    </div>
+  </div>
+</template>

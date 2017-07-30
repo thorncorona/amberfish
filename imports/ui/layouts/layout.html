@@ -1,0 +1,12 @@
+<template name="layout">
+  <header>
+    {{> nav }}
+    {{> loginButtons}}
+
+  </header>
+  <main>
+    <div class="container">
+      {{> yield}}
+    </div>
+  </main>
+</template>

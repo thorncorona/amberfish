@@ -1,0 +1,21 @@
+<template name="home">
+  <div class="card-container row">
+    {{#each clubs}}
+      {{> club_card}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="club_card">
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{name}}</span>
+        <p>{{desc}}</p>
+      </div>
+      <div class="card-action">
+        <a target="_blank" href="{{website}}">Go to their website</a>
+      </div>
+    </div>
+  </div>
+</template>

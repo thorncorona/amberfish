@@ -1,0 +1,32 @@
+<template name="addclub">
+  <div class="row">
+    <div class="section">
+      <h3>Add a Club</h3>
+    </div>
+  </div>
+  <div class="row">
+    <form class="col s12" id="new-club">
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input placeholder="Amazing club" name="name" type="text" class="">
+          <label for="name">Club Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input placeholder="https://example.com" name="website" type="text" class="">
+          <label for="website">Club Website</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <textarea placeholder="We're the most amazing club." name="desc" class="materialize-textarea"></textarea>
+          <label for="desc">Short Description</label>
+        </div>
+      </div>
+      <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+    </form>
+  </div>
+</template>

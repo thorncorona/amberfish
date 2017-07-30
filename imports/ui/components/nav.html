@@ -1,0 +1,36 @@
+<template name="nav">
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Logo</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        {{> shared_sidebar_items }}
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        {{> shared_sidebar_items }}
+      </ul>
+    </div>
+  </nav>
+</template>
+
+<template name="shared_sidebar_items">
+  <li><a href="{{ pathFor 'home'}}">Home</a></li>
+  {{#if currentUser }}
+    <li>
+      <a href="{{ pathFor 'addclub'}}">
+        Add Club
+      </a>
+    </li>
+    <li>
+      <a href="{{pathFor 'manageclubs'}}">
+        Manage Clubs
+      </a>
+    </li>
+    <li>
+      <a href="">
+          You're logged in as {{currentUser.username}}
+      </a>
+    </li>
+  {{/if}}
+
+</template>
