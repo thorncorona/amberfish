@@ -1,0 +1,1 @@
+MONGO_URL=mongodb://local.domain:27017/clubs

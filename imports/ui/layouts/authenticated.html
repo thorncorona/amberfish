@@ -1,0 +1,15 @@
+<template name="authenticated">
+  <header>
+    {{> nav }}
+    {{> loginButtons}}
+  </header>
+  <main>
+    <div class="container">
+      {{#if currentUser}}
+        {{> yield}}
+      {{else}}
+        You must be logged in to view this page
+      {{/if}}
+    </div>
+  </main>
+</template>

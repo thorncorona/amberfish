@@ -1,5 +1,5 @@
 {
-  "name": "amberfish",
+  "name": "clubs-test",
   "private": true,
   "scripts": {
     "start": "meteor run"
