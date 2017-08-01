@@ -11,7 +11,7 @@ Template.manageclub.onRendered(function () {
 Template.manageclub.helpers({
   club() {
     return Clubs.findOne({
-      _id: Template.currentData(),
+      name: Template.currentData(),
     });
   },
 });

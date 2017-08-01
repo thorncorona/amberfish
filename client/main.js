@@ -6,6 +6,7 @@ import '../imports/ui/pages/home';
 import '../imports/ui/pages/addclub';
 import '../imports/ui/pages/manageclubs';
 import '../imports/ui/pages/manageclub';
+import '../imports/ui/pages/clubsignup';
 import '../imports/ui/components/nav';
 import '../imports/ui/layouts/layout';
 import '../imports/ui/layouts/authenticated';
@@ -30,12 +31,25 @@ Router.map(function() {
     template: 'manageclubs',
   });
   this.route('manageclub', {
-    path: '/manage/club/:_id',
+    path: '/:clubname/manage',
     template: 'manageclub',
     layoutTemplate: 'authenticated',
     data: function() {
-      return this.params._id;
+      return this.params.clubname;
     },
+  });
+  this.route('signupclub', {
+    path: '/:clubname/signup',
+    template: 'clubsignup',
+    data: function () {
+      return this.params.clubname;
+    }
+  });
+  this.route('viewmembers', {
+    path: '/:clubname/manage/members',
+    data: function () {
+      return this.params.clubname
+    }
   });
 });
 Router.route('test', function() {
