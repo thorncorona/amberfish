@@ -1,4 +1,5 @@
-import { Club, Clubs } from '../../api/clubs.js';
+import { Clubs, ClubSchema} from '../../api/clubs.js';
+import { check } from 'meteor/check';
 import './addclub.html';
 
 Template.addclub.onRendered(function() {
@@ -30,8 +31,23 @@ Template.addclub.onRendered(function() {
         .attr('data-error', error.text());
     },
     submitHandler: function (form) {
-      Clubs.insert(new Club(form.name.value, form.desc.value, form.website.value, Meteor.userId()));
-      form.reset();
+      var newClub = {
+        name: form.name.value,
+        desc: form.desc.value,
+        website: form.website.value,
+        userId: Meteor.userId()
+      };
+      if(Match.test(newClub, ClubSchema)) {
+        console.log('added');
+        Clubs.insert(newClub);
+        form.reset();
+      } else {
+        console.log('rejected');
+
+        $('label[for=name]').attr('data-error', 'Club name is already taken');
+        $('input[name=name]').addClass('invalid').removeClass('valid');
+
+      }
     },
   });
 });

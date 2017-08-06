@@ -1,16 +1,41 @@
 import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
 
-class Club {
-  constructor(name, desc, website, userId) {
-    this.name = name;
-    this.desc = desc;
-    this.website = website;
-    this.userId = userId;
-  }
-}
-
-const Clubs = new Mongo.Collection('clubs', {
-  transform: doc => new Club(doc.name, doc.desc, doc.website, doc.userId),
+let MemberSchema = new SimpleSchema({
+  name: {
+    type: String,
+    optional: false,
+  },
+  email: {
+    type: String,
+    optional: false,
+    unique: true,
+  },
+  grade: {
+    type: Number,
+    optional: false,
+  },
 });
 
-export { Club, Clubs };
+let ClubSchema = new SimpleSchema({
+  name: {
+    type: String,
+    regEx: /^[a-z0-9A-Z_]/,
+    unique: true,
+  },
+  desc: {
+    type: String,
+  },
+  website: {
+    type: String,
+  },
+  members: [MemberSchema],
+  userId: {
+    type: String,
+    optional: false,
+  }
+});
+
+const Clubs = new Mongo.Collection('clubs', ClubSchema);
+
+export { Clubs, ClubSchema, MemberSchema };

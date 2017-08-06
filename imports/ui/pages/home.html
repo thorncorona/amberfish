@@ -1,8 +1,19 @@
 <template name="home">
   <div class="card-container row">
-    {{#each clubs}}
-      {{> club_card}}
-    {{/each}}
+    {{#if clubs.count}}
+      {{#each clubs}}
+        {{> club_card}}
+      {{/each}}
+    {{else}}
+        <div class="col s12 m6">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">No clubs!</span>
+              <p>You should create one!</p>
+            </div>
+          </div>
+        </div>
+      {{/if}}
   </div>
 </template>
 

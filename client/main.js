@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Clubs } from '../imports/api/clubs';
 
 import '../imports/startup/accounts-config';
 import '../imports/ui/pages/home';
