@@ -1,0 +1,22 @@
+<template name="viewmembers">
+  <h3>Members for Club {{club.name}}</h3>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {{#each members}}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{email}}</td>
+        <td>{{grade}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</template>

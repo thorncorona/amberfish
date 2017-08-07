@@ -1,8 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/clubs';
+import '../imports/startup/server/routes';
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
 
-  });
-}

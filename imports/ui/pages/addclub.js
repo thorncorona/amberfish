@@ -1,5 +1,4 @@
 import { Clubs, ClubSchema} from '../../api/clubs.js';
-import { check } from 'meteor/check';
 import './addclub.html';
 
 Template.addclub.onRendered(function() {
@@ -37,7 +36,7 @@ Template.addclub.onRendered(function() {
         website: form.website.value,
         userId: Meteor.userId()
       };
-      if(Match.test(newClub, ClubSchema)) {
+      if(ClubSchema.newContext().validate(newClub)) {
         console.log('added');
         Clubs.insert(newClub);
         form.reset();

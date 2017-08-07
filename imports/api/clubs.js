@@ -8,12 +8,22 @@ let MemberSchema = new SimpleSchema({
   },
   email: {
     type: String,
+    regEx: SimpleSchema.RegEx.EmailWithTLD,
     optional: false,
     unique: true,
   },
   grade: {
     type: Number,
     optional: false,
+  },
+}, {
+  clean: {
+    filter: true,
+    autoConvert: true,
+    removeEmptyStrings: true,
+    trimStrings: true,
+    getAutoValues: true,
+    removeNullsFromArrays: true,
   },
 });
 
@@ -34,6 +44,15 @@ let ClubSchema = new SimpleSchema({
     type: String,
     optional: false,
   }
+},{
+  clean: {
+    filter: true,
+    autoConvert: true,
+    removeEmptyStrings: true,
+    trimStrings: true,
+    getAutoValues: true,
+    removeNullsFromArrays: true,
+  },
 });
 
 const Clubs = new Mongo.Collection('clubs', ClubSchema);
