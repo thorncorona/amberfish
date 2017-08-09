@@ -9,9 +9,16 @@ Template.manageclubs.helpers({
     return Clubs.find({
       userId: Meteor.userId(),
     });
+  }
+});
+
+Template.editclub.helpers({
+  encodeURI(url) {
+    return encodeURI(encodeURIComponent(url));
   },
 });
 
 Template.manageclubs.onRendered(function () {
 
 });
+

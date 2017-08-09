@@ -50,5 +50,8 @@ Template.manageclub.helpers({
       name: Template.currentData(),
     }).fetch()[0];
     return club;
-  }
+  },
+  encodeURI(url) {
+    return encodeURI(encodeURIComponent(url));
+  },
 });

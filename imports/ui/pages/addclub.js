@@ -3,6 +3,9 @@ import './addclub.html';
 
 Template.addclub.onRendered(function() {
   Materialize.updateTextFields();
+
+  const clubValidationCtx = ClubSchema.newContext("addclub");
+
   $('form#new-club').validate({
     rules: {
       name: {
@@ -34,7 +37,8 @@ Template.addclub.onRendered(function() {
         name: form.name.value,
         desc: form.desc.value,
         website: form.website.value,
-        userId: Meteor.userId()
+        userId: Meteor.userId(),
+        members: []
       };
       if(ClubSchema.newContext().validate(newClub)) {
         console.log('added');
@@ -45,7 +49,6 @@ Template.addclub.onRendered(function() {
 
         $('label[for=name]').attr('data-error', 'Club name is already taken');
         $('input[name=name]').addClass('invalid').removeClass('valid');
-
       }
     },
   });

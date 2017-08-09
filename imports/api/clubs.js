@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 
 let MemberSchema = new SimpleSchema({
@@ -32,6 +33,18 @@ let ClubSchema = new SimpleSchema({
     type: String,
     regEx: /^[a-z0-9A-Z_]/,
     unique: true,
+    custom() {
+      if (Meteor.isClient && this.isSet) {
+        Meteor.call("clubNameIsAvailable", this.value, (error, result) => {
+          if (!result) {
+            this.validationContext.addValidationErrors([{
+              name: "name",
+              type: "notUnique"
+            }]);
+          }
+        });
+      }
+    },
   },
   desc: {
     type: String,
