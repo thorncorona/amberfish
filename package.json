@@ -8,6 +8,7 @@
     "babel-runtime": "^6.25.0",
     "bcrypt": "^1.0.2",
     "buffer": "^5.0.7",
+    "fibers": "^2.0.0",
     "meteor-node-stubs": "~0.2.4",
     "simpl-schema": "^0.3.2"
   },

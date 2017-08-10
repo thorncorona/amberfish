@@ -44,9 +44,9 @@ Template.clubsignup.onRendered(function () {
 
 Template.clubsignup.helpers({
   club() {
-    club = Clubs.find({
+    club = Clubs.findOne({
       name: Template.currentData(),
-    }).fetch()[0];
+    });
     return club;
   }
 });

@@ -1,55 +1,103 @@
 import { Clubs, ClubSchema} from '../../api/clubs.js';
+import { Meteor } from 'meteor/meteor';
 import './addclub.html';
+import './addclub.css';
+
+Template.addclub.onCreated(function bodyOnCreated() {
+  this.clubValidationCtx = ClubSchema.namedContext("addclubform");
+});
 
 Template.addclub.onRendered(function() {
   Materialize.updateTextFields();
-
-  const clubValidationCtx = ClubSchema.newContext("addclub");
-
-  $('form#new-club').validate({
-    rules: {
-      name: {
-        required: true,
-        minlength: 3,
-      },
-      desc: {
-        required: true,
-        minlength: 10,
-      },
-      website: {
-        required: true,
-        url: true,
-      },
-    },
-    messages: {
-      website: {
-        url: "Please enter a valid URL, include the https:// header."
-      },
-    },
-    errorClass: 'invalid',
-    errorPlacement: function (error, element) {
-      $(element).closest("form")
-        .find("label[for='" + element.attr("name") + "']")
-        .attr('data-error', error.text());
-    },
-    submitHandler: function (form) {
-      var newClub = {
-        name: form.name.value,
-        desc: form.desc.value,
-        website: form.website.value,
-        userId: Meteor.userId(),
-        members: []
-      };
-      if(ClubSchema.newContext().validate(newClub)) {
-        console.log('added');
-        Clubs.insert(newClub);
-        form.reset();
-      } else {
-        console.log('rejected');
-
-        $('label[for=name]').attr('data-error', 'Club name is already taken');
-        $('input[name=name]').addClass('invalid').removeClass('valid');
-      }
-    },
-  });
+  $('form#new-club > button').addClass("disabled");
 });
+
+Template.addclub.events({
+  'keyup input[name=name], change input[name=name], keyup textarea, change textarea'(event, instance) {
+    checkForm();
+  },
+  'click .addclub' (event, instance) {
+    event.preventDefault();
+    Clubs.insert(getClubForm());
+    $('#confirmmodal').modal("open");
+    $('input[name=name]').val("");
+    $('textarea[name=desc]').val("");
+    $('input[name=website]').val("");
+  }
+});
+
+function checkForm() {
+  function errorWithName(error, name) {
+    return error.name === name;
+  }
+
+  function setStatus(name, fieldType, error) {
+    let $label = $(`form#new-club label[for=${name}`);
+    let $field = $(`form#new-club ${fieldType}[name=${name}]`);
+    $field.removeClass("valid invalid");
+
+    if(error !== undefined) {
+      $field.addClass("invalid");
+      $label.attr("data-error", getErrorMessage(error));
+    } else {
+      $field.addClass("valid");
+    }
+  }
+
+  let addclubform = getClubForm();
+
+  let ctx = Template.instance().clubValidationCtx;
+
+  ctx.validate(addclubform);
+
+  if(!ctx.isValid()) {
+    $('form#new-club > button').addClass("disabled");
+  } else {
+    $('form#new-club > button').removeClass("disabled");
+  }
+
+  setTimeout(function() {
+    // wait for club name check
+    let errors = ctx.validationErrors();
+    console.log(errors);
+    let nameError = errors.find(((e) => errorWithName(e, "name")));
+    setStatus("name", "input", nameError);
+
+    let websiteError = errors.find(((e) => errorWithName(e, "website")));
+    setStatus("website", "input", websiteError);
+
+    let descError = errors.find(((e) => errorWithName(e, "desc")));
+    setStatus("desc", "textarea", descError);
+  }, 250);
+}
+
+function getErrorMessage(error) {
+  switch(error.type) {
+    case "minString":
+      return `Minimum of ${error.min} characters.`;
+    case "maxString":
+      return `Maximum of ${error.max} characters.`;
+    case "required":
+      return `Field required.`;
+    case "regEx" :
+      if(error.name === "website") {
+        return `Not a valid website. Please include the http or https header.`;
+      } else {
+        return "Regex";
+      }
+    case "notUnique":
+      return "Name already taken";
+    default:
+      return "Error: " + error.type;
+  }
+}
+
+function getClubForm() {
+  return {
+    name: $('input[name=name]').val(),
+    desc: $('textarea[name=desc]').val(),
+    website: $('input[name=website]').val(),
+    members: [],
+    userId: Meteor.userId(),
+  };
+}
