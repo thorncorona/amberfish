@@ -54,4 +54,11 @@ Template.manageclub.helpers({
   encodeURI(url) {
     return encodeURI(encodeURIComponent(url));
   },
+  mailLink() {
+    let link = "mailto:";
+    for(let i = 0; i < club.members.length; i++) {
+      link += club.members[i].email + ";";
+    }
+    return link;
+  }
 });

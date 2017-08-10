@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Clubs } from  '../imports/api/clubs';
 import '../imports/startup/server/routes';
 Future = Npm.require('fibers/future');
+
 function verifyClubSignup(name, grade, email, clubname) {
   var details = {
     name: name,

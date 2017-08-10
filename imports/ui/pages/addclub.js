@@ -13,7 +13,7 @@ Template.addclub.onRendered(function() {
 });
 
 Template.addclub.events({
-  'keyup input[name=name], change input[name=name], keyup textarea, change textarea'(event, instance) {
+  'keyup input change input, keyup textarea, change textarea'(event, instance) {
     checkForm();
   },
   'click .addclub' (event, instance) {
@@ -50,25 +50,24 @@ function checkForm() {
 
   ctx.validate(addclubform);
 
-  if(!ctx.isValid()) {
-    $('form#new-club > button').addClass("disabled");
-  } else {
+  if(ctx.isValid()) {
     $('form#new-club > button').removeClass("disabled");
+  } else {
+    $('form#new-club > button').addClass("disabled");
+    setTimeout(function() {
+      // wait for club name check
+      let errors = ctx.validationErrors();
+      console.log(errors);
+      let nameError = errors.find(((e) => errorWithName(e, "name")));
+      setStatus("name", "input", nameError);
+
+      let websiteError = errors.find(((e) => errorWithName(e, "website")));
+      setStatus("website", "input", websiteError);
+
+      let descError = errors.find(((e) => errorWithName(e, "desc")));
+      setStatus("desc", "textarea", descError);
+    }, 250);
   }
-
-  setTimeout(function() {
-    // wait for club name check
-    let errors = ctx.validationErrors();
-    console.log(errors);
-    let nameError = errors.find(((e) => errorWithName(e, "name")));
-    setStatus("name", "input", nameError);
-
-    let websiteError = errors.find(((e) => errorWithName(e, "website")));
-    setStatus("website", "input", websiteError);
-
-    let descError = errors.find(((e) => errorWithName(e, "desc")));
-    setStatus("desc", "textarea", descError);
-  }, 250);
 }
 
 function getErrorMessage(error) {
