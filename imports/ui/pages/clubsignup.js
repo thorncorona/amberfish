@@ -16,6 +16,7 @@ Template.clubsignup.helpers({
 
 Template.clubsignup.onCreated(function() {
   this.memberValidationCtx = MemberSchema.namedContext("clubsignup");
+  Meteor.subscribe('clubs.public.all');
 });
 
 Template.clubsignup.onRendered(function() {
@@ -29,11 +30,17 @@ Template.clubsignup.events({
   },
   'click .clubsignup' (event, instance) {
     event.preventDefault();
-    Clubs.insert(getClubForm());
-    $('#confirmmodal').modal("open");
-    $('input[name=name]').val("");
-    $('input[name=email]').val("");
-    $('input[name=grade]').val("");
+    if(!$('form#clubsignup > button').hasClass("disabled")) {
+      Meteor.call("clubs.verifyclubsignup", {
+        _id: club._id,
+        clubname: club.name,
+        member: getClubForm()
+      });
+      $('#confirmmodal').modal("open");
+      $('input[name=name]').val("");
+      $('input[name=email]').val("");
+      $('input[name=grade]').val("");
+    }
   }
 });
 

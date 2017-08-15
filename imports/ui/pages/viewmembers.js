@@ -8,6 +8,10 @@ Template.viewmembers.onRendered(function () {
 
 });
 
+Template.viewmembers.onCreated(function () {
+  Meteor.subscribe('clubs.private.all', 'clubs.public.all');
+});
+
 Template.viewmembers.helpers({
   club() {
     club = Clubs.find({

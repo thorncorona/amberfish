@@ -78,3 +78,90 @@ let ClubSchema = new SimpleSchema({
 const Clubs = new Mongo.Collection('clubs', ClubSchema);
 
 export { Clubs, ClubSchema, MemberSchema };
+
+if(Meteor.isServer) {
+  Meteor.publish('clubs.public.all', function clubsPublication() {
+    return Clubs.find({}, {
+      fields: {
+        "members": 0,
+        "userId" : 0,
+      }
+    });
+  });
+
+  Meteor.publish('clubs.private.all', function clubsMembersPublication() {
+    return Clubs.find({
+      userId: Meteor.userId()
+    });
+  });
+
+
+  Meteor.methods({
+    'clubs.insert' (club) {
+      if(!Meteor.userId()) {
+        throw new Meteor.Error("not-authorized");
+      }
+
+      //make sure they match up
+      club.userId = Meteor.userId();
+      club.members = [];
+
+      Clubs.insert(club);
+    },
+    'clubs.update' (club) {
+      check(club, JSON);
+
+      if(!Meteor.userId() && Meteor.findOne({_id: club._id}).userId !== Meteor.userId()) {
+        throw new Meteor.Error("not-authorized");
+      }
+
+      Clubs.update({_id: club._id}, club);
+    },
+    'clubs.delete' (club) {
+      check(club, JSON);
+
+      if (!Meteor.userId() && Meteor.findOne({_id: club._id}).userId !== Meteor.userId()) {
+        throw new Meteor.Error("not-authorized");
+      }
+
+      Clubs.remove({_id: club._id});
+    },
+    'clubs.addmember' (clubwmember) {
+      Clubs.update({_id: clubwmember._id}, {
+        $push: {
+          members: clubwmember.member,
+        },
+      });
+    },
+    'clubs.removemember' (clubwmember) {
+      Clubs.update({_id: clubwmember._id}, {
+        $pull: {
+          members: clubwmember.member
+        }
+      });
+    },
+    'clubs.verifyclubsignup' (clubsignup) {
+      var details = {
+        _id: clubsignup.clubId,
+        clubname: clubsignup.clubname,
+        member : {
+          name: clubsignup.name,
+          grade: clubsignup.grade,
+          email: clubsignup.email,
+        },
+      };
+      console.log(details);
+      var b64 = encodeURIComponent(new Buffer(JSON.stringify(details) || '').toString("base64"));
+
+      console.log(b64);
+      Email.send({
+        to: name + " <" + email + ">",
+        from: "Amberfish <dev@storied.me>",
+        subject: "Please confirm your signup to " + details.clubname,
+        html: `<a href="http://localhost:3000/club/confirm/${b64}">Click on this link to confirm your sign up to ${details.clubname}.</a>\n
+            Or open this link in your browser: https://localhost:3000/club/confirm/${b64}`,
+      });
+    }
+  });
+
+}

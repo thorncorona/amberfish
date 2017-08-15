@@ -9,20 +9,22 @@ Template.addclub.onCreated(function bodyOnCreated() {
 
 Template.addclub.onRendered(function() {
   Materialize.updateTextFields();
-  $('form#new-club > button').addClass("disabled");
+  $('form#newclub > button').addClass("disabled");
 });
 
 Template.addclub.events({
-  'keyup input change input, keyup textarea, change textarea'(event, instance) {
+  'keyup input, change input, keyup textarea, change textarea'(event, instance) {
     checkForm();
   },
   'click .addclub' (event, instance) {
     event.preventDefault();
-    Clubs.insert(getClubForm());
-    $('#confirmmodal').modal("open");
-    $('input[name=name]').val("");
-    $('textarea[name=desc]').val("");
-    $('input[name=website]').val("");
+    if(!$('form#newclub > button').hasClass("disabled")) {
+      Meteor.call("clubs.insert", getClubForm());
+      $('#confirmmodal').modal("open");
+      $('input[name=name]').val("");
+      $('textarea[name=desc]').val("");
+      $('input[name=website]').val("");
+    }
   }
 });
 
@@ -32,8 +34,8 @@ function checkForm() {
   }
 
   function setStatus(name, fieldType, error) {
-    let $label = $(`form#new-club label[for=${name}`);
-    let $field = $(`form#new-club ${fieldType}[name=${name}]`);
+    let $label = $(`form#newclub label[for=${name}`);
+    let $field = $(`form#newclub ${fieldType}[name=${name}]`);
     $field.removeClass("valid invalid");
 
     if(error !== undefined) {
@@ -51,9 +53,12 @@ function checkForm() {
   ctx.validate(addclubform);
 
   if(ctx.isValid()) {
-    $('form#new-club > button').removeClass("disabled");
+    $('form#newclub > button').removeClass("disabled");
+    setStatus("name", "input", undefined);
+    setStatus("website", "input", undefined);
+    setStatus("desc", "textarea", undefined);
   } else {
-    $('form#new-club > button').addClass("disabled");
+    $('form#newclub > button').addClass("disabled");
     setTimeout(function() {
       // wait for club name check
       let errors = ctx.validationErrors();

@@ -4,6 +4,10 @@ import { Meteor } from 'meteor/meteor';
 
 import './manageclubs.html';
 
+Template.manageclubs.onCreated(function () {
+  Meteor.subscribe('clubs.private.all');
+});
+
 Template.manageclubs.helpers({
   clubs() {
     return Clubs.find({
@@ -17,8 +21,3 @@ Template.editclub.helpers({
     return encodeURI(encodeURIComponent(url));
   },
 });
-
-Template.manageclubs.onRendered(function () {
-
-});
-
