@@ -109,8 +109,6 @@ if(Meteor.isServer) {
       Clubs.insert(club);
     },
     'clubs.update' (club) {
-      check(club, JSON);
-
       if(!Meteor.userId() && Meteor.findOne({_id: club._id}).userId !== Meteor.userId()) {
         throw new Meteor.Error("not-authorized");
       }
@@ -118,8 +116,6 @@ if(Meteor.isServer) {
       Clubs.update({_id: club._id}, club);
     },
     'clubs.delete' (club) {
-      check(club, JSON);
-
       if (!Meteor.userId() && Meteor.findOne({_id: club._id}).userId !== Meteor.userId()) {
         throw new Meteor.Error("not-authorized");
       }
@@ -158,8 +154,8 @@ if(Meteor.isServer) {
         to: name + " <" + email + ">",
         from: "Amberfish <dev@storied.me>",
         subject: "Please confirm your signup to " + details.clubname,
-        html: `<a href="http://localhost:3000/club/confirm/${b64}">Click on this link to confirm your sign up to ${details.clubname}.</a>\n
-            Or open this link in your browser: https://localhost:3000/club/confirm/${b64}`,
+        html: `<a href="https://amberfish.storied.me/club/confirm/${b64}">Click on this link to confirm your sign up to ${details.clubname}.</a>\n
+            Or open this link in your browser: https://amberfish.storied.me/club/confirm/${b64}`,
       });
     }
   });

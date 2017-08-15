@@ -35,7 +35,8 @@
       <h4>Actions</h4>
       <a href="/{{encodeURI club.name}}/signup" class="btn btn-large waves-effect waves-green">Show Club Signup Page</a><br/><br/>
       <a href="/{{encodeURI club.name}}/manage/members" class="btn btn-large waves-effect waves-green">Show Club Members List</a><br><br>
-      <a href="{{mailLink}}" class="btn btn-large waves-effect waves-green">Email All Members</a>
+      <a href="{{mailLink}}" class="btn btn-large waves-effect waves-green">Email All Members</a><br/><br/>
+      <a href="javascript:;" id="deleteclub" class="btn btn-large waves-effect red modal-trigger">Delete club</a><br/><br/>
     </div>
   </div>
   <div id="confirmmodal" class="modal">
@@ -50,6 +51,15 @@
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+  </div>
+  <div id="confirmdeletemodal" class="modal">
+    <div class="modal-content">
+      <h4>Are you sure?</h4>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:;" id="confirmdeleteclubyes" class="modal-action modal-close waves-effect waves-green btn-flat">Yes, delete this club.</a>
+      <a href="javascript:;" class="modal-action modal-close waves-effect waves-green btn-flat">No, keep this club.</a>
     </div>
   </div>
 </template>

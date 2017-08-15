@@ -51,6 +51,14 @@ Template.manageclub.events({
     event.preventDefault();
     Clubs.update(club._id, getClubForm());
     $('#confirmmodal').modal("open");
+  },
+  'click #deleteclub' (event, instance) {
+    $("#confirmdeletemodal").modal("open");
+  },
+  'click a#confirmdeleteclubyes' (event, instance) {
+    Meteor.call("clubs.delete", club);
+    window.location.replace("/manageclubs");
+    console.log(club);
   }
 });
 
