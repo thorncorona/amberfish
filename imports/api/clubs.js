@@ -138,12 +138,12 @@ if(Meteor.isServer) {
     },
     'clubs.verifyclubsignup' (clubsignup) {
       var details = {
-        _id: clubsignup.clubId,
+        _id: clubsignup._id,
         clubname: clubsignup.clubname,
         member : {
-          name: clubsignup.name,
-          grade: clubsignup.grade,
-          email: clubsignup.email,
+          name: clubsignup.member.name,
+          grade: clubsignup.member.grade,
+          email: clubsignup.member.email,
         },
       };
       console.log(details);
@@ -151,13 +151,12 @@ if(Meteor.isServer) {
 
       console.log(b64);
       Email.send({
-        to: name + " <" + email + ">",
-        from: "Amberfish <dev@storied.me>",
+        to: details.member.name + " <" + details.member.email + ">",
+        from: "Amberfish <dev@amberfishmail.storied.me>",
         subject: "Please confirm your signup to " + details.clubname,
         html: `<a href="https://amberfish.storied.me/club/confirm/${b64}">Click on this link to confirm your sign up to ${details.clubname}.</a>\n
             Or open this link in your browser: https://amberfish.storied.me/club/confirm/${b64}`,
       });
     }
   });
-
 }

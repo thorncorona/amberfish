@@ -39,7 +39,8 @@ Template.clubsignup.events({
       $('#confirmmodal').modal("open");
       $('input[name=name]').val("");
       $('input[name=email]').val("");
-      $('input[name=grade]').val("");
+      //TODO: get this working
+      $('input[name=grade]:checked').attr("checked", false);
     }
   }
 });

@@ -11,4 +11,11 @@ Template.home.helpers({
   clubs() {
     return Clubs.find({});
   },
+
+});
+
+Template.club_card.helpers({
+  encodeURI(url) {
+    return encodeURI(encodeURIComponent(url));
+  },
 });
